@@ -37,7 +37,7 @@ dsh plugin --profile web add dsh-agents-md
 
 ## 实现方式
 
-- **host 半**（`lib/index.js`）：注册同源 JSON 路由 `/__dsh-agents-md/{list,read,write}`，按 `agent-instructions` 的规则复刻发现逻辑，写入用 `tmp + rename` 原子替换。
+- **host 半**（`lib/index.js`）：注册同源 JSON 路由 `/__dsh-agents-md/{list,read,write,open}`，按 `agent-instructions` 的规则复刻发现逻辑，写入用 `tmp + rename` 原子替换。
 - **client 半**（`lib/client.js`）：用 `window.__ModuleLoader__.load({ id, factory })` 注册的预构建单文件 bundle，向 `conversation.view` 槽位注册 `id: "agents-md"`、`order: 20` 的视图。视图从渲染器标准 kit 拿到 `sessionId` 与 `useSessions`，用 `sessions.list` 里的 `cwd` 定位工作区。
 
 ## 路由
