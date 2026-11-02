@@ -96,6 +96,9 @@ README.md           用户文档（功能、安装、路由表、已知边界）
 - 侧栏顺序由 `orderFiles()` + `SCOPE_ORDER` 决定：`dsh-home`(0) → `project`(1) → `agents-home`(2)，
   稳定排序，**只改展示**（host 的 `discover()` 顺序仍与 DSH 注入顺序一致；`~/.agents/AGENTS.md`
   是用户 2026-11-02 明确要求排到最下面的）。新增 scope 时在这里补 rank，别去动 host。
+- 侧栏加粗标题用 `scopeText()` 输出位置标签（`全局 DSH 目录` / `工作区根` /
+  `工作区子目录 · 目录名` / `全局 Agents 目录`），第二行 `displayPath`，第三行 `fileName · 大小`。
+  原因：三个文件都叫 `AGENTS.md`，只看文件名分不清（用户 2026-11-02 要求）。改文案改 `DICT_ZH` / `DICT_EN` 的 `scope.*`。
 
 ### 客户端错误处理
 
@@ -106,7 +109,7 @@ host 半改动只有在重启承载进程后才加载，这是真实用户会遇
 
 ```bash
 npm run check   # node --check lib/index.js lib/client.js
-npm test        # host 12 项 + client 11 项
+npm test        # host 12 项 + client 12 项
 ```
 
 测试不依赖真实 DSH：`test/smoke.mjs` 用临时目录 + 真实 HTTP 驱动路由；`test/client.mjs` 在

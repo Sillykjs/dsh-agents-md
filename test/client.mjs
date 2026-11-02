@@ -207,7 +207,7 @@ check('the plugin injects its stylesheet and dictionaries', () => {
   assert.equal(styles[0].attributes['data-dsh-agents-md'], '1')
   assert.ok(styles[0].textContent.includes('.dam-root'))
   assert.equal(messages.zh.title, '智能体文档')
-  assert.equal(messages.zh['scope.dsh'], '用户全局 · DSH 家目录')
+  assert.equal(messages.zh['scope.dsh'], '全局 DSH 目录')
 })
 
 check('the view renders the root container before session data arrives', () => {
@@ -272,6 +272,16 @@ check('the sidebar keeps the agents-home file at the bottom', () => {
   // The host order is left untouched; only the rendered array is reordered.
   assert.deepEqual(listed.map((file) => file.scope), ['dsh-home', 'agents-home', 'project', 'project', 'project'])
   assert.equal(orderFiles(undefined).length, 0)
+})
+
+check('the sidebar labels each file by its location', () => {
+  const { scopeText } = exports.__test
+  assert.equal(typeof scopeText, 'function')
+  const tr = (key) => messages.zh[key] === undefined ? key : messages.zh[key]
+  assert.equal(scopeText({ scope: 'dsh-home', relativeDir: '' }, tr), '全局 DSH 目录')
+  assert.equal(scopeText({ scope: 'agents-home', relativeDir: '' }, tr), '全局 Agents 目录')
+  assert.equal(scopeText({ scope: 'project', relativeDir: '' }, tr), '工作区根')
+  assert.equal(scopeText({ scope: 'project', relativeDir: 'pkg' }, tr), '工作区子目录 · pkg')
 })
 
 check('the view starts in preview mode and offers an edit action', () => {
