@@ -1,0 +1,6 @@
+# dsh-agents-md: a conversation tab that shows and edits the AGENTS.md files
+# DSH actually loads for the current workspace.
+# Inserted by `dsh plugin add` (bundle patch).
+- insert:
+    - id: dsh-agents-md
+      name: 'dsh-agents-md'
