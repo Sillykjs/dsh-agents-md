@@ -1,6 +1,6 @@
 {
   "name": "dsh-agents-md",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A DSH Web conversation tab that lists and edits the AGENTS.md instruction files DSH loads for the current workspace.",
   "type": "module",
   "license": "MIT",

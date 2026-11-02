@@ -302,6 +302,10 @@ check('the view shows the workspace path and its open action', () => {
   assert.ok(text.includes('dsh-agents-md-workspace'))
   assert.ok(text.includes('/home/sjk/projects/demo'))
   assert.ok(text.includes('在资源管理器中打开工作区目录'))
+  // The workspace feedback sits in a row, so it can render right of the path.
+  assert.ok(text.includes('dam-workspace-row'))
+  assert.ok(styles[0].textContent.includes('.dam-notice-inline'))
+  assert.ok(styles[0].textContent.includes('.dam-workspace-path'))
 })
 
 check('disposing the plugin removes the stylesheet', () => {
