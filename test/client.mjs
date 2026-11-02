@@ -283,7 +283,7 @@ check('the sidebar labels each file by its location', () => {
   const tr = (key) => messages.zh[key] === undefined ? key : messages.zh[key]
   assert.equal(scopeText({ scope: 'dsh-home', relativeDir: '' }, tr), '全局 DSH 目录')
   assert.equal(scopeText({ scope: 'agents-home', relativeDir: '' }, tr), '全局 Agents 目录')
-  assert.equal(scopeText({ scope: 'project', relativeDir: '' }, tr), '工作区根')
+  assert.equal(scopeText({ scope: 'project', relativeDir: '' }, tr), '工作区目录')
   assert.equal(scopeText({ scope: 'project', relativeDir: 'pkg' }, tr), '工作区子目录 · pkg')
 })
 
