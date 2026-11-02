@@ -179,7 +179,7 @@ const exports = captured.definition.factory(requireStub)
 
 check('the module exports apply and the slots dependency', () => {
   assert.equal(typeof exports.apply, 'function')
-  assert.deepEqual([...exports.inject], ["slots"])
+  assert.deepEqual([...exports.inject], ["slots", "locale"])
 })
 
 exports.apply(ctx)
