@@ -106,7 +106,7 @@ host 半改动只有在重启承载进程后才加载，这是真实用户会遇
 
 ```bash
 npm run check   # node --check lib/index.js lib/client.js
-npm test        # host 12 项 + client 10 项
+npm test        # host 12 项 + client 11 项
 ```
 
 测试不依赖真实 DSH：`test/smoke.mjs` 用临时目录 + 真实 HTTP 驱动路由；`test/client.mjs` 在
@@ -124,7 +124,7 @@ curl -s "http://127.0.0.1:3080/plugins/??dsh-agents-md/client.js&rev=<rev>" | gr
 
 ```bash
 # 本地 link 安装（当前使用的方式）
-dsh plugin --profile web add link:/home/sjk/project/dsh-agents-md
+dsh plugin --profile web add link:/home/sjk/projects/dsh-agents-md
 ```
 
 - 改 `lib/client.js`：clientModules 会重建并换 rev，刷新页面即可

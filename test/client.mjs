@@ -286,11 +286,11 @@ check('the view shows the workspace path and its open action', () => {
   const element = View({
     sessionId: 'session-1',
     t: (key) => messages.zh[key] === undefined ? key : messages.zh[key],
-    useSessions: () => '/home/sjk/project/demo',
+    useSessions: () => '/home/sjk/projects/demo',
   })
   const text = JSON.stringify(element)
   assert.ok(text.includes('dsh-agents-md-workspace'))
-  assert.ok(text.includes('/home/sjk/project/demo'))
+  assert.ok(text.includes('/home/sjk/projects/demo'))
   assert.ok(text.includes('在资源管理器中打开工作区目录'))
 })
 
