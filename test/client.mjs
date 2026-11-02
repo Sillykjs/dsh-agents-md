@@ -208,6 +208,8 @@ check('the plugin injects its stylesheet and dictionaries', () => {
   assert.ok(styles[0].textContent.includes('.dam-root'))
   assert.equal(messages.zh.title, '智能体文档')
   assert.equal(messages.zh['scope.dsh'], '全局 DSH 目录')
+  assert.ok(messages.zh.intro.includes('说明书'))
+  assert.ok(styles[0].textContent.includes('.dam-intro'))
   assert.ok(styles[0].textContent.includes('.dam-docsize'))
 })
 
