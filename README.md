@@ -16,6 +16,7 @@ DSH 会在每个会话里注入一组 `AGENTS.md`（以及 `CLAUDE.md`、`AGENTS
 - 两态查看：默认是 Markdown 预览（标题、列表、代码块、表格、引用、链接），点「编辑」才进入等宽字体编辑器；保存成功自动回到预览，取消则回退到上次读取的内容
 - 编辑能力：Ctrl/⌘+S 保存、未保存标记、字节数与修改时间，切换文件前会确认是否放弃未保存修改
 - 缺失文件可直接创建：只对用户全局 `AGENTS.md` 和工作区边界（项目根 / 当前目录）的 `AGENTS.md` 提供“尚未创建”的占位，避免在工作区里凭空造出 CLAUDE.md
+- 顶部标出当前工作区路径，点一下就在系统文件管理器里打开（WSL 下自动转成 `\\wsl.localhost\...` 再交给 Windows 资源管理器）
 - 显示指令总预算（64 KiB，与 `agent-instructions` 的默认配置一致）和当前合计大小，超预算会变黄
 - 保存安全：sha256 版本校验 + 临时文件原子替换。文件在编辑器外被改过时返回冲突提示，而不是静默覆盖
 - 中英文界面，跟随 DSH 语言设置；浅色主题，使用 DSH 的 CSS 变量
@@ -48,6 +49,9 @@ dsh plugin --profile web add dsh-agents-md
 | `/__dsh-agents-md/list` | `{ cwd }` | `{ ok, cwd, projectRoot, budget, totalBytes, files[] }` |
 | `/__dsh-agents-md/read` | `{ cwd, path }` | `{ ok, path, exists, content, version, size, mtimeMs }` |
 | `/__dsh-agents-md/write` | `{ cwd, path, content, version }` | `{ ok, path, version, size, mtimeMs }` |
+| `/__dsh-agents-md/open` | `{ cwd }` | `{ ok, path, launcher }` |
+
+`open` 只接受该会话的工作区绝对路径，用 `explorer.exe` / `xdg-open` 打开；WSL 下先经 `wslpath -w` 转换。
 
 `version` 是内容的 sha256 十六进制串；`null` 表示“文件应不存在”。文件在磁盘上已变化时返回 `409 CONFLICT`。请求路径必须命中该工作区的发现结果，否则返回 `403 PATH_NOT_ALLOWED`。
 

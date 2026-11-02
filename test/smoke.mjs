@@ -61,6 +61,7 @@ const ctx = {
 plugin.apply(ctx)
 assert.deepEqual([...routes.keys()].sort(), [
   '/__dsh-agents-md/list',
+  '/__dsh-agents-md/open',
   '/__dsh-agents-md/read',
   '/__dsh-agents-md/write',
 ])
@@ -189,6 +190,26 @@ try {
     const absent = await call('list', { cwd: path.join(root, 'absent') })
     assert.equal(absent.status, 400)
     assert.equal(absent.body.code, 'CWD_INVALID')
+  })
+
+  await check('open validates the workspace directory before launching', async () => {
+    const missing = await call('open', {})
+    assert.equal(missing.status, 400)
+    assert.equal(missing.body.code, 'CWD_REQUIRED')
+    const absent = await call('open', { cwd: path.join(root, 'absent') })
+    assert.equal(absent.status, 400)
+    assert.equal(absent.body.code, 'CWD_INVALID')
+  })
+
+  await check('WSL directories translate to a Windows path Explorer accepts', async () => {
+    const translated = await plugin.__test.windowsPathFor(workspace)
+    const procVersion = await readFile('/proc/version', 'utf8').catch(() => '')
+    if (process.platform !== 'linux' || !/microsoft/i.test(procVersion)) {
+      assert.equal(translated, null)
+      return
+    }
+    assert.equal(typeof translated, 'string')
+    assert.match(translated, /^(?:[A-Za-z]:\\\\|\\\\wsl)/)
   })
 
   await check('non-POST requests are rejected', async () => {
