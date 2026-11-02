@@ -21,7 +21,7 @@ lib/client.js       client 半：页签注册、文件列表、Markdown 预览�
 cordis.patch.yml    bundle patch：让 `dsh plugin add` 把插件插进 profile
 test/smoke.mjs      host 路由冒烟测试（假 webServer + 真 HTTP + 临时目录）
 test/client.mjs     client 契约测试（VM 里假 React / slots / locale）
-README.md           用户文档（功能、安装、路由表、已知边界）
+README.md           用户文档（只写功能与安装；路由表、实现细节写在本文件）
 ```
 
 ## 3. host 半（`lib/index.js`）
@@ -136,8 +136,11 @@ curl -s "http://127.0.0.1:3080/plugins/??dsh-agents-md/client.js&rev=<rev>" | gr
 ## 6. 部署
 
 ```bash
-# 本地 link 安装（当前使用的方式）
+# 本地 link 安装（开发时）
 dsh plugin --profile web add link:/home/sjk/projects/dsh-agents-md
+
+# 终端用户安装：GitHub 公开仓库
+dsh plugin --profile web add github:Sillykjs/dsh-agents-md
 ```
 
 - 改 `lib/client.js`：clientModules 会重建并换 rev，刷新页面即可
@@ -148,7 +151,7 @@ dsh plugin --profile web add link:/home/sjk/projects/dsh-agents-md
 
 - Conventional Commits，`type` + 英文单行 subject（仓库现有历史即此风格），正文可用中文
 - 一次提交一件事；`npm test` 通过后再提交
-- 仓库是本地库（`main` 分支，无 remote）；不提交 `node_modules`、日志、编辑器临时文件
+- 仓库托管在 GitHub：<https://github.com/Sillykjs/dsh-agents-md>（public，`main` 跟踪 `origin/main`）；不提交 `node_modules`、日志、编辑器临时文件
 - 版本号跟 `package.json` 走，功能改动同步 README 与 `AGENTS.md`（本文件）
 
 ## 8. 已知边界（不要"顺手修"）
