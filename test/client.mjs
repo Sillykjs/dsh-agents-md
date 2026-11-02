@@ -220,6 +220,44 @@ check('the view renders the root container before session data arrives', () => {
   assert.ok(text.includes('等待会话信息'))
 })
 
+check('the markdown preview renderer builds a safe block tree', () => {
+  const { renderMarkdown } = exports.__test
+  assert.equal(typeof renderMarkdown, 'function')
+  assert.equal(renderMarkdown('').length, 0)
+  const blocks = renderMarkdown([
+    '# Title',
+    '',
+    '- alpha',
+    '- **bold** and `code`',
+    '',
+    '| left | right |',
+    '| --- | ---: |',
+    '| 1 | 2 |',
+    '',
+    '> quoted',
+    '',
+    '```js',
+    'const a = 1',
+    '```',
+    '',
+    'A [link](https://example.com) and ~~gone~~.',
+  ].join('\n'))
+  assert.deepEqual([...blocks.map((block) => block.type)], ['h1', 'ul', 'table', 'blockquote', 'pre', 'p'])
+  const text = JSON.stringify(blocks)
+  assert.ok(text.includes('dam-md-h1'))
+  assert.ok(text.includes('dam-inline-code'))
+  assert.ok(text.includes('dam-table'))
+  assert.ok(text.includes('"href":"https://example.com"'))
+  assert.ok(!text.includes('dangerouslySetInnerHTML'))
+})
+
+check('the view starts in preview mode and offers an edit action', () => {
+  const View = captured.registrations[0].component
+  const element = View({ sessionId: 'session-1', t: (key) => messages.zh[key] === undefined ? key : messages.zh[key] })
+  const text = JSON.stringify(element)
+  assert.ok(text.includes('dsh-agents-md-preview') || text.includes('等待会话信息'))
+})
+
 check('disposing the plugin removes the stylesheet', () => {
   for (const dispose of captured.disposers.reverse()) {
     if (typeof dispose === 'function') dispose()

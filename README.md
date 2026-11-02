@@ -13,7 +13,8 @@ DSH 会在每个会话里注入一组 `AGENTS.md`（以及 `CLAUDE.md`、`AGENTS
 - 列出当前会话实际参与注入的指令文件：
   - 用户全局：`$DSH_HOME/AGENTS.md`（默认 `~/.dsh/AGENTS.md`）、`$DSH_AGENTS_HOME/AGENTS.md`（默认 `~/.agents/AGENTS.md`）
   - 工作区：从项目根（最近的 `.git` 所在目录）到当前工作目录的每一级目录，检查 `AGENTS.md` / `CLAUDE.md` / `AGENTS.local.md` / `CLAUDE.local.md`
-- 原地编辑：等宽字体编辑器、Ctrl/⌘+S 保存、未保存标记、字节数与修改时间
+- 两态查看：默认是 Markdown 预览（标题、列表、代码块、表格、引用、链接），点「编辑」才进入等宽字体编辑器；保存成功自动回到预览，取消则回退到上次读取的内容
+- 编辑能力：Ctrl/⌘+S 保存、未保存标记、字节数与修改时间，切换文件前会确认是否放弃未保存修改
 - 缺失文件可直接创建：只对用户全局 `AGENTS.md` 和工作区边界（项目根 / 当前目录）的 `AGENTS.md` 提供“尚未创建”的占位，避免在工作区里凭空造出 CLAUDE.md
 - 显示指令总预算（64 KiB，与 `agent-instructions` 的默认配置一致）和当前合计大小，超预算会变黄
 - 保存安全：sha256 版本校验 + 临时文件原子替换。文件在编辑器外被改过时返回冲突提示，而不是静默覆盖
@@ -31,7 +32,7 @@ dsh plugin --profile web add dsh-agents-md
 
 安装后**重启**承载 Web UI 的 DSH 进程（例如 `dsh web`），再刷新页面。页签栏会多出「智能体文档」。
 
-> DSH 0.2.1-rc.2 不会热重载插件代码：改 host 半（`lib/index.js`）或 client 半（`lib/client.js`）之后都要重启进程。
+> 改 host 半（`lib/index.js`）后需要重启承载进程；改 client 半（`lib/client.js`）后刷新页面即可取到重新下发的 bundle。
 
 ## 实现方式
 
@@ -57,7 +58,7 @@ npm test        # host 路由冒烟 + client 注册契约测试
 npm run check   # node --check
 ```
 
-测试不依赖真实 DSH 进程：`test/smoke.mjs` 用临时目录和真实 HTTP 服务器驱动 host 路由；`test/client.mjs` 在 VM 里用假的 React / slots / locale 跑 client bundle，检查注册出来的槽位选项和渲染树。
+测试不依赖真实 DSH 进程：`test/smoke.mjs` 用临时目录和真实 HTTP 服务器驱动 host 路由；`test/client.mjs` 在 VM 里用假的 React / slots / locale 跑 client bundle，检查注册出来的槽位选项、渲染树，以及 Markdown 预览渲染器。
 
 ## 已知边界
 
