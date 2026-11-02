@@ -13,6 +13,7 @@ DSH 会在每个会话里注入一组 `AGENTS.md`（以及 `CLAUDE.md`、`AGENTS
 - 列出当前会话实际参与注入的指令文件：
   - 用户全局：`$DSH_HOME/AGENTS.md`（默认 `~/.dsh/AGENTS.md`）、`$DSH_AGENTS_HOME/AGENTS.md`（默认 `~/.agents/AGENTS.md`）
   - 工作区：从项目根（最近的 `.git` 所在目录）到当前工作目录的每一级目录，检查 `AGENTS.md` / `CLAUDE.md` / `AGENTS.local.md` / `CLAUDE.local.md`
+  - 侧栏顺序：`$DSH_HOME/AGENTS.md` → 工作区链路 → `$DSH_AGENTS_HOME/AGENTS.md`（`~/.agents/AGENTS.md` 固定排在最下面，不挡常用的工作区文件；只影响展示，DSH 的实际注入顺序不变）
 - 两态查看：默认是 Markdown 预览（标题、列表、代码块、表格、引用、链接），点「编辑」才进入等宽字体编辑器；保存成功自动回到预览，取消则回退到上次读取的内容
 - 编辑能力：Ctrl/⌘+S 保存、未保存标记、字节数与修改时间，切换文件前会确认是否放弃未保存修改
 - 缺失文件可直接创建：只对用户全局 `AGENTS.md` 和工作区边界（项目根 / 当前目录）的 `AGENTS.md` 提供“尚未创建”的占位，避免在工作区里凭空造出 CLAUDE.md

@@ -251,6 +251,29 @@ check('the markdown preview renderer builds a safe block tree', () => {
   assert.ok(!text.includes('dangerouslySetInnerHTML'))
 })
 
+check('the sidebar keeps the agents-home file at the bottom', () => {
+  const { orderFiles } = exports.__test
+  assert.equal(typeof orderFiles, 'function')
+  const listed = [
+    { path: '/home/u/.dsh/AGENTS.md', scope: 'dsh-home' },
+    { path: '/home/u/.agents/AGENTS.md', scope: 'agents-home' },
+    { path: '/w/AGENTS.md', scope: 'project' },
+    { path: '/w/pkg/AGENTS.md', scope: 'project' },
+    { path: '/w/CLAUDE.md', scope: 'project' },
+  ]
+  const ordered = orderFiles(listed)
+  assert.deepEqual([...ordered.map((file) => file.path)], [
+    '/home/u/.dsh/AGENTS.md',
+    '/w/AGENTS.md',
+    '/w/pkg/AGENTS.md',
+    '/w/CLAUDE.md',
+    '/home/u/.agents/AGENTS.md',
+  ])
+  // The host order is left untouched; only the rendered array is reordered.
+  assert.deepEqual(listed.map((file) => file.scope), ['dsh-home', 'agents-home', 'project', 'project', 'project'])
+  assert.equal(orderFiles(undefined).length, 0)
+})
+
 check('the view starts in preview mode and offers an edit action', () => {
   const View = captured.registrations[0].component
   const element = View({ sessionId: 'session-1', t: (key) => messages.zh[key] === undefined ? key : messages.zh[key] })

@@ -93,6 +93,9 @@ README.md           用户文档（功能、安装、路由表、已知边界）
 - 点「编辑」才切到等宽 `<textarea>`；`dirty` 以 `base`（上次读取内容）为基线
 - 保存成功 → 回预览并更新基线；取消/切换文件前对未保存内容确认
 - 顶部显示工作区路径（点击调 `open`），显示 64 KiB 预算与合计大小
+- 侧栏顺序由 `orderFiles()` + `SCOPE_ORDER` 决定：`dsh-home`(0) → `project`(1) → `agents-home`(2)，
+  稳定排序，**只改展示**（host 的 `discover()` 顺序仍与 DSH 注入顺序一致；`~/.agents/AGENTS.md`
+  是用户 2026-11-02 明确要求排到最下面的）。新增 scope 时在这里补 rank，别去动 host。
 
 ### 客户端错误处理
 
