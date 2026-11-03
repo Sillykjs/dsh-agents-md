@@ -100,9 +100,11 @@ README.md           用户文档（只写功能与安装；路由表、实现细
   打开成功/失败提示用独立的 `openNotice` 状态，渲染在路径右侧的 `dam-notice-inline`，
   不再挤进编辑区的 `notice`（用户 2026-11-02 要求：反馈要放在路径右边）
 - 顶部还显示 64 KiB 预算与合计大小
-- 侧栏顺序由 `orderFiles()` + `SCOPE_ORDER` 决定：`dsh-home`(0) → `project`(1) → `agents-home`(2)，
-  稳定排序，**只改展示**（host 的 `discover()` 顺序仍与 DSH 注入顺序一致；`~/.agents/AGENTS.md`
-  是用户 2026-11-02 明确要求排到最下面的）。新增 scope 时在这里补 rank，别去动 host。
+- 侧栏顺序由 `orderFiles()` + `SCOPE_ORDER` 决定：`project`(0) → `dsh-home`(1) → `agents-home`(2)，
+  稳定排序（同 rank 内保持发现顺序，工作区链路仍是项目根→子目录），**只改展示**（host 的
+  `discover()` 顺序仍与 DSH 注入顺序一致）。用户 2026-11-03 要求工作区文件置顶（最常编辑），
+  2026-11-02 要求 `~/.agents/AGENTS.md` 排最下面。默认选中项仍是排序后的第一项，所以现在默认
+  打开工作区根文件。新增 scope 时在这里补 rank，别去动 host。
 - 侧栏加粗标题用 `scopeText()` 输出位置标签（`全局 DSH 目录` / `工作区目录` /
   `工作区子目录 · 目录名` / `全局 Agents 目录`），第二行是路径（`displayPathOf()`），第三行 `fileName · 大小`。
   原因：三个文件都叫 `AGENTS.md`，只看文件名分不清（用户 2026-11-02 要求）。改文案改 `DICT_ZH` / `DICT_EN` 的 `scope.*`。

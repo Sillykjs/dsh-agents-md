@@ -5,6 +5,7 @@ DSH Web 插件：在对话页签栏加一个「智能体文档」页签，查看
 ## 功能
 
 - 列出当前会话加载的全部指令文件：用户级与工作区的 `AGENTS.md` / `CLAUDE.md`
+- 侧栏顺序：工作区文件置顶，其次 `~/.dsh/AGENTS.md`，`~/.agents/AGENTS.md` 固定在最下面
 - 默认 Markdown 预览，点「编辑」切换到编辑器
 - Ctrl/⌘+S 保存，保存后下一条消息生效
 - 缺失的 `AGENTS.md` 可直接创建

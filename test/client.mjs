@@ -254,7 +254,7 @@ check('the markdown preview renderer builds a safe block tree', () => {
   assert.ok(!text.includes('dangerouslySetInnerHTML'))
 })
 
-check('the sidebar keeps the agents-home file at the bottom', () => {
+check('the sidebar pins the workspace file on top and the agents-home file at the bottom', () => {
   const { orderFiles } = exports.__test
   assert.equal(typeof orderFiles, 'function')
   const listed = [
@@ -266,10 +266,10 @@ check('the sidebar keeps the agents-home file at the bottom', () => {
   ]
   const ordered = orderFiles(listed)
   assert.deepEqual([...ordered.map((file) => file.path)], [
-    '/home/u/.dsh/AGENTS.md',
     '/w/AGENTS.md',
     '/w/pkg/AGENTS.md',
     '/w/CLAUDE.md',
+    '/home/u/.dsh/AGENTS.md',
     '/home/u/.agents/AGENTS.md',
   ])
   // The host order is left untouched; only the rendered array is reordered.
