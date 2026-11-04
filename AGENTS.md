@@ -22,6 +22,7 @@ cordis.patch.yml    bundle patch：让 `dsh plugin add` 把插件插进 profile
 test/smoke.mjs      host 路由冒烟测试（假 webServer + 真 HTTP + 临时目录）
 test/client.mjs     client 契约测试（VM 里假 React / slots / locale）
 README.md           用户文档（只写功能与安装；路由表、实现细节写在本文件）
+docs/screenshot.png README 里用的界面截图
 ```
 
 ## 3. host 半（`lib/index.js`）
